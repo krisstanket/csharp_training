@@ -11,10 +11,41 @@ namespace WebAddressBookTests
 {
     public class GroupHelper : HelperBase
     {
-        public GroupHelper (IWebDriver driver)
-            : base(driver)
+        public GroupHelper (ApplicationManager manager)
+            : base(manager)
         {
         }
+
+        public GroupHelper CreateGroup(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            InitGroupCreation();
+            FillGroupForm(group);
+            SubmitGroupCreation();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper Modify(int v, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(v);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper Remove(int v)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(v);
+            ClickRemoveGroupButton();
+            ReturnToGroupsPage();
+            return this;
+        }
+
         public GroupHelper InitGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
@@ -56,6 +87,18 @@ namespace WebAddressBookTests
         public GroupHelper ClickRemoveGroupButton()
         {
             driver.FindElement(By.Name("delete")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
             return this;
         }
     }

@@ -7,12 +7,12 @@ using NUnit.Framework;
 namespace WebAddressBookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : TestBase
+    public class ContactRemovalTests : TestBase
     {
         [Test]
-        public void GroupRemovalTest()
+        public void ContactRemovalTest()
         {
-            appManager.Groups.Remove(1);
-        }            
+            appManager.Contacts.Remove(1);
+        }
     }
 }

@@ -11,10 +11,38 @@ namespace WebAddressBookTests
 {
     public class ContactHelper : HelperBase
     {
-        public ContactHelper (IWebDriver driver) 
-            : base(driver)
+        public ContactHelper (ApplicationManager manager) 
+            : base(manager)
         {
         }
+        
+        public ContactHelper Create(ContactData contact)
+        {
+            InitContactCreation();
+            FillContactForm(contact);
+            SubmitContactCreation();
+            ReturnToHomePage();
+            return this;
+        }
+
+        public ContactHelper Modify(int v, ContactData contact)
+        {
+            SelectContact(v);
+            InitContactModification(v);
+            FillContactForm(contact);
+            SubmitContactModification();
+            ReturnToHomePage();
+            return this;
+        }
+
+        public ContactHelper Remove(int p)
+        {
+            SelectContact(p);
+            ClickRemoveContactButton();
+            SubmitContactRemovalAlert();
+            return this;
+        }
+
         public ContactHelper InitContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -41,6 +69,36 @@ namespace WebAddressBookTests
         public ContactHelper ReturnToHomePage()
         {
             driver.FindElement(By.LinkText("home page")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact(int index)
+        {
+            driver.FindElement(By.XPath($"(//input[@name='selected[]'])[{index}]")).Click();
+            return this;
+        }
+
+        public ContactHelper ClickRemoveContactButton()
+        {
+            driver.FindElement(By.CssSelector("input[onclick=\"DeleteSel()\"]")).Click();
+            return this;
+        }
+
+        public ContactHelper SubmitContactRemovalAlert()
+        {
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
+
+        public ContactHelper InitContactModification(int id)
+        {
+            driver.FindElement(By.CssSelector($"a[href=\"edit.php?id={id}\"]")).Click();
+            return this;
+        }
+
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
             return this;
         }
     }
