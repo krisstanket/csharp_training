@@ -28,7 +28,7 @@ namespace WebAddressBookTests
         public ContactHelper Modify(int v, ContactData contact)
         {
             SelectContact(v);
-            InitContactModification(v);
+            InitContactModification(GetContactIdByIndex(v));
             FillContactForm(contact);
             SubmitContactModification();
             ReturnToHomePage();
@@ -76,6 +76,13 @@ namespace WebAddressBookTests
         {
             driver.FindElement(By.XPath($"(//input[@name='selected[]'])[{index}]")).Click();
             return this;
+        }
+
+        public int GetContactIdByIndex(int index)
+        {
+            var contact = driver.FindElement(By.XPath($"(//input[@name='selected[]'])[{index}]"));
+            var idContact = contact.GetAttribute("id");
+            return Convert.ToInt32(idContact);
         }
 
         public ContactHelper ClickRemoveContactButton()
