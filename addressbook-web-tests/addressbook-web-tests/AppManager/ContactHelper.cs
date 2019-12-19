@@ -90,9 +90,9 @@ namespace WebAddressBookTests
             return this;
         }
 
-        public ContactHelper InitContactModification(int id)
+        public ContactHelper InitContactModification(int index)
         {
-            driver.FindElement(By.CssSelector($"a[href=\"edit.php?id={id}\"]")).Click();
+            driver.FindElement(By.CssSelector($"a[href=\"edit.php?id={index}")).Click();
             return this;
         }
 
