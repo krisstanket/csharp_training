@@ -7,15 +7,11 @@ using System.Threading.Tasks;
 
 namespace WebAddressBookTests
 {
-    [SetUpFixture]
-    public class TestSuiteFixture
+    public class AuthTestBase : TestBase
     {
-
         [SetUp]
-        public void InitApplicationManager()
+        public void SetupLogin()
         {
-            ApplicationManager appManager = ApplicationManager.GetInstance();
-            appManager.Navigator.OpenHomePage();
             appManager.Auth.Login(new AccountData("admin", "secret"));
         }
     }
