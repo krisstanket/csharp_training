@@ -28,7 +28,7 @@ namespace WebAddressBookTests
             loginHelper = new LoginHelper(this);
             navigationHelper = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
-            contactHelper = new ContactHelper(this);
+            contactHelper = new ContactHelper(this, baseURL);
         }
 
         ~ApplicationManager()

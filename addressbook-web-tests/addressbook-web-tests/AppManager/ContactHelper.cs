@@ -11,9 +11,11 @@ namespace WebAddressBookTests
 {
     public class ContactHelper : HelperBase
     {
-        public ContactHelper (ApplicationManager manager) 
+        private string baseURL;
+        public ContactHelper (ApplicationManager manager, string baseURL) 
             : base(manager)
         {
+            this.baseURL = baseURL;
         }
         
         public ContactHelper Create(ContactData contact)
@@ -27,6 +29,11 @@ namespace WebAddressBookTests
 
         public ContactHelper Modify(int v, ContactData contact)
         {
+            if (GetContactsNumber() == 0)
+            {
+                Create(contact);
+            }
+
             SelectContact(v);
             InitContactModification(GetContactIdByIndex(v));
             FillContactForm(contact);
@@ -37,6 +44,12 @@ namespace WebAddressBookTests
 
         public ContactHelper Remove(int p)
         {
+            if (GetContactsNumber() == 0)
+            {
+                ContactData contact = new ContactData("name", "lastName");
+                Create(contact);
+            }
+
             SelectContact(p);
             ClickRemoveContactButton();
             SubmitContactRemovalAlert();
@@ -62,10 +75,13 @@ namespace WebAddressBookTests
             return this;
         }
 
-        public ContactHelper ReturnToHomePage()
+        public void ReturnToHomePage()
         {
+            if (driver.Url == baseURL)
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("home page")).Click();
-            return this;
         }
 
         public ContactHelper SelectContact(int index)
@@ -103,6 +119,12 @@ namespace WebAddressBookTests
         {
             driver.FindElement(By.Name("update")).Click();
             return this;
+        }
+
+        public int GetContactsNumber()
+        {
+            var contactsNumber = driver.FindElement(By.Id("search_count"));
+            return Convert.ToInt32(contactsNumber.Text);
         }
     }
 }
