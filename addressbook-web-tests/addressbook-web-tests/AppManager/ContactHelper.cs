@@ -29,11 +29,7 @@ namespace WebAddressBookTests
 
         public ContactHelper Modify(int v, ContactData contact)
         {
-            if (GetContactsNumber() == 0)
-            {
-                Create(contact);
-            }
-
+            CheckContactNumber();
             SelectContact(v);
             InitContactModification(GetContactIdByIndex(v));
             FillContactForm(contact);
@@ -44,12 +40,7 @@ namespace WebAddressBookTests
 
         public ContactHelper Remove(int p)
         {
-            if (GetContactsNumber() == 0)
-            {
-                ContactData contact = new ContactData("name", "lastName");
-                Create(contact);
-            }
-
+            CheckContactNumber();
             SelectContact(p);
             ClickRemoveContactButton();
             SubmitContactRemovalAlert();
@@ -125,6 +116,15 @@ namespace WebAddressBookTests
         {
             var contactsNumber = driver.FindElement(By.Id("search_count"));
             return Convert.ToInt32(contactsNumber.Text);
+        }
+               
+        public void CheckContactNumber()
+        {
+            if (GetContactsNumber() == 0)
+            {
+                ContactData contact = new ContactData("name", "lastName");
+                Create(contact);
+            }
         }
     }
 }
