@@ -13,8 +13,8 @@ namespace WebAddressBookTests
         public void ContactModificationTest()
         {
             ContactData contact = new ContactData("newfirstname", "newlastname");
-
-            appManager.Contacts.Modify(2, contact);
+            appManager.Contacts.CheckContactNumber().
+                Modify(2, contact);
         }
     }
 }

@@ -29,7 +29,6 @@ namespace WebAddressBookTests
         public GroupHelper Modify(int v, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            CheckGroupAmount();
             SelectGroup(v);
             InitGroupModification();
             FillGroupForm(newData);
@@ -41,7 +40,6 @@ namespace WebAddressBookTests
         public GroupHelper Remove(int v)
         {
             manager.Navigator.GoToGroupsPage();
-            CheckGroupAmount();
             SelectGroup(v);
             ClickRemoveGroupButton();
             ReturnToGroupsPage();
@@ -98,13 +96,14 @@ namespace WebAddressBookTests
             return this;
         }
                
-        public void CheckGroupAmount()
+        public GroupHelper CheckGroupAmount()
         {
             if (!IsElementPresent(By.Name("selected[]")))
             {
                 GroupData group = new GroupData("group");
                 CreateGroup(group);
             }
+            return this;
         }
     }
 }

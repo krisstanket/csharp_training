@@ -29,7 +29,6 @@ namespace WebAddressBookTests
 
         public ContactHelper Modify(int v, ContactData contact)
         {
-            CheckContactNumber();
             SelectContact(v);
             InitContactModification(GetContactIdByIndex(v));
             FillContactForm(contact);
@@ -40,7 +39,6 @@ namespace WebAddressBookTests
 
         public ContactHelper Remove(int p)
         {
-            CheckContactNumber();
             SelectContact(p);
             ClickRemoveContactButton();
             SubmitContactRemovalAlert();
@@ -118,13 +116,14 @@ namespace WebAddressBookTests
             return Convert.ToInt32(contactsNumber.Text);
         }
                
-        public void CheckContactNumber()
+        public ContactHelper CheckContactNumber()
         {
             if (GetContactsNumber() == 0)
             {
                 ContactData contact = new ContactData("name", "lastName");
                 Create(contact);
             }
+            return this;
         }
     }
 }
