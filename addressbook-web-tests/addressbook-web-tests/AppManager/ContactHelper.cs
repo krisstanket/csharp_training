@@ -17,7 +17,7 @@ namespace WebAddressBookTests
         {
             this.baseURL = baseURL;
         }
-        
+
         public ContactHelper Create(ContactData contact)
         {
             InitContactCreation();
@@ -75,13 +75,13 @@ namespace WebAddressBookTests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath($"(//input[@name='selected[]'])[{index}]")).Click();
+            driver.FindElement(By.XPath($"(//input[@name='selected[]'])[{index + 1}]")).Click();
             return this;
         }
 
         public int GetContactIdByIndex(int index)
         {
-            var contact = driver.FindElement(By.XPath($"(//input[@name='selected[]'])[{index}]"));
+            var contact = driver.FindElement(By.XPath($"(//input[@name='selected[]'])[{index + 1}]"));
             var idContact = contact.GetAttribute("id");
             return Convert.ToInt32(idContact);
         }
@@ -124,6 +124,34 @@ namespace WebAddressBookTests
                 Create(contact);
             }
             return this;
+        }
+        public List<ContactData> GetContactsList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            List<string> names = new List<string>();
+            List<string> lastNames = new List<string>();
+
+            manager.Navigator.OpenHomePage();
+            ICollection<IWebElement> namesElements = driver.FindElements(By.CssSelector("tr[name=\"entry\"]>td:nth-child(3)"));
+            ICollection<IWebElement> lastNamesElements = driver.FindElements(By.CssSelector("tr[name=\"entry\"]>td:nth-child(2)"));
+
+            foreach (IWebElement element in namesElements)
+            {
+                names.Add(element.Text);
+            }
+
+            foreach(IWebElement element in lastNamesElements)
+            {
+                lastNames.Add(element.Text);
+            }
+
+            var listCount = names.Count;
+
+            for (int i = 0; i < listCount; i++)
+            {
+                contacts.Add(new ContactData(names[i], lastNames[i]));
+            }
+            return contacts;
         }
     }
 }
