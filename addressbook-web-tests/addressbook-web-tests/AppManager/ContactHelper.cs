@@ -128,29 +128,16 @@ namespace WebAddressBookTests
         public List<ContactData> GetContactsList()
         {
             List<ContactData> contacts = new List<ContactData>();
-            List<string> names = new List<string>();
-            List<string> lastNames = new List<string>();
 
             manager.Navigator.OpenHomePage();
-            ICollection<IWebElement> namesElements = driver.FindElements(By.CssSelector("tr[name=\"entry\"]>td:nth-child(3)"));
-            ICollection<IWebElement> lastNamesElements = driver.FindElements(By.CssSelector("tr[name=\"entry\"]>td:nth-child(2)"));
-
-            foreach (IWebElement element in namesElements)
+            ICollection<IWebElement> rows = driver.FindElements(By.CssSelector("tr[name=\"entry\"]"));
+            
+            foreach (IWebElement element in rows)
             {
-                names.Add(element.Text);
+                IList<IWebElement> cells = element.FindElements(By.TagName("td"));
+                contacts.Add(new ContactData(cells[2].Text, cells[1].Text));
             }
 
-            foreach(IWebElement element in lastNamesElements)
-            {
-                lastNames.Add(element.Text);
-            }
-
-            var listCount = names.Count;
-
-            for (int i = 0; i < listCount; i++)
-            {
-                contacts.Add(new ContactData(names[i], lastNames[i]));
-            }
             return contacts;
         }
     }
