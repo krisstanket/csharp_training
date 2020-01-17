@@ -193,5 +193,26 @@ namespace WebAddressBookTests
                 AllEmails = allEmails
             };
         }
+
+        public ContactHelper OpenContactPropertyPage(int id)
+        {
+            driver.FindElement(By.CssSelector($"a[href=\"view.php?id={id}\"]")).Click();
+            return this;
+        }
+
+        public ContactData GetContactsInformationFromPropertyPage()
+        {
+            string name = driver.FindElement(By.CssSelector("#content > b")).Text;
+            string allContactData = driver.FindElement(By.Id("content")).Text;
+
+            int emptyIndex = name.IndexOf(" ", 0);
+            string firstName = name.Substring(0, emptyIndex);
+            string lastName = name.Substring(emptyIndex + 1, name.Length - firstName.Length - 1);
+
+            return new ContactData(firstName, lastName)
+            {
+                AllContactData = allContactData
+            };
+        }
     }
 }

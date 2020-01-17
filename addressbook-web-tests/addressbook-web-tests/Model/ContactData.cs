@@ -11,6 +11,7 @@ namespace WebAddressBookTests
     {
         private string allPhones;
         private string allEmails;
+        private string allContactData;
 
         public ContactData(string firstName, string lastName)
         {
@@ -101,13 +102,42 @@ namespace WebAddressBookTests
                 }
                 else
                 {
-                    return (EmailCleanUp(Email) + EmailCleanUp(Email2) + EmailCleanUp(Email3))
+                    return (AddNextString(Email) 
+                        + AddNextString(Email2) 
+                        + AddNextString(Email3))
                         .Trim();
                 }
             }
             set
             {
                 allEmails = value;
+            }
+        }
+
+        public string AllContactData
+        {
+            get
+            {
+                if (allContactData != null)
+                {
+                    return allContactData;
+                }
+                else
+                {
+                    return $@"{FirstName} {LastName}
+{Address}
+
+{PropertyHomePhone(HomePhone)}
+{PropertyMobilePhone(MobilePhone)}
+{PropertyWorkPhone(WorkPhone)}
+{PropertyEmail(Email)}
+{PropertyEmail(Email2)}
+{PropertyEmail(Email3)}";
+                }
+            }
+            set
+            {
+                allContactData = value;
             }
         }
 
@@ -121,13 +151,49 @@ namespace WebAddressBookTests
 
         }
 
-        private string EmailCleanUp(string email)
+        private string AddNextString(string property)
+        {
+            if (property == null || property == "")
+            {
+                return "";
+            }
+            return property + "\r\n";
+        }
+
+        private string PropertyHomePhone(string phone)
+        {
+            if (phone == null || phone == "")
+                {
+                    return "";
+                }
+            return "H: " + phone;
+        }
+
+        private string PropertyMobilePhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "M: " + phone;
+        }
+
+        private string PropertyWorkPhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "W: " + phone;
+        }
+
+        private string PropertyEmail(string email)
         {
             if (email == null || email == "")
             {
                 return "";
             }
-            return email + "\r\n";
+            return email;
         }
     }
 }
