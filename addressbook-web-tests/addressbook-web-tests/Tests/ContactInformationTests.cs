@@ -31,7 +31,6 @@ namespace WebAddressBookTests
                 appManager.Contacts.GetContactIdByIndex(0));
             ContactData fromProperty = appManager.Contacts.GetContactsInformationFromPropertyPage();
 
-            Assert.AreEqual(fromForm, fromProperty);
             Assert.AreEqual(fromProperty.AllContactData, fromForm.AllContactData);
         }
     }
