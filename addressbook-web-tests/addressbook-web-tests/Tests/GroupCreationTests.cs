@@ -14,7 +14,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace WebAddressBookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -86,11 +86,11 @@ namespace WebAddressBookTests
         [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             appManager.Groups.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -105,11 +105,11 @@ namespace WebAddressBookTests
             group.Header = "";
             group.Footer = "";
 
-            List<GroupData> oldGroups = appManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             appManager.Groups.CreateGroup(group);
 
             Assert.AreEqual(oldGroups.Count + 1, appManager.Groups.GetGroupCount());
-            List<GroupData> newGroups = appManager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
