@@ -127,6 +127,7 @@ namespace WebAddressBookTests
                
         public GroupHelper CheckGroupAmount()
         {
+            manager.Navigator.GoToGroupsPage();
             if (!IsElementPresent(By.Name("selected[]")))
             {
                 GroupData group = new GroupData("group");

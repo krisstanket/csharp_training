@@ -12,10 +12,19 @@ namespace WebAddressBookTests
         [Test]
         public void TestDeletingContactFromGroup()
         {
+            appManager.Groups.CheckGroupAmount();
+            appManager.Contacts.CheckContactNumber();
+
             GroupData group = GroupData.GetAll()[0];
             List<ContactData> oldList = group.GetContacts();
-            ContactData contact = ContactData.GetAll().Intersect(oldList).First();
+            if (oldList.Count == 0)
+            {
+                var contactForAdding = ContactData.GetAll()[0];
+                appManager.Contacts.AddContactToGroup(contactForAdding, group);
+                oldList.Add(contactForAdding);
+            }
 
+            ContactData contact = ContactData.GetAll().Intersect(oldList).First();
             appManager.Contacts.DeleteContactFromGroup(contact, group);
 
             List<ContactData> newList = group.GetContacts();

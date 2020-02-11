@@ -20,6 +20,7 @@ namespace WebAddressBookTests
         
         public ContactHelper Create(ContactData contact)
         {
+            manager.Navigator.OpenHomePage();
             InitContactCreation();
             FillContactForm(contact);
             SubmitContactCreation();
@@ -200,6 +201,7 @@ namespace WebAddressBookTests
                
         public ContactHelper CheckContactNumber()
         {
+            manager.Navigator.OpenHomePage();
             if (GetContactsNumber() == 0)
             {
                 ContactData contact = new ContactData("name", "lastName");

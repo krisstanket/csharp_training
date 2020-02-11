@@ -12,10 +12,18 @@ namespace WebAddressBookTests
         [Test]
         public void TestAddingContactToGroup()
         {
+            appManager.Groups.CheckGroupAmount();
+            appManager.Contacts.CheckContactNumber();
+
             GroupData group = GroupData.GetAll()[0];
             List<ContactData> oldList = group.GetContacts();
-            ContactData contact = ContactData.GetAll()
-                .Except(oldList).First();
+            if (oldList.Equals(ContactData.GetAll()))
+            {
+                var newContact = new ContactData("name", "lastname");
+                appManager.Contacts.Create(newContact);
+                oldList.Add(newContact);
+            }
+            ContactData contact = ContactData.GetAll().Except(oldList).First();
 
             appManager.Contacts.AddContactToGroup(contact, group);
 
